@@ -17,8 +17,6 @@ class VaxpTheme {
         scaffoldBackgroundColor: VaxpColors.darkGlassBackground,
         primaryColor: VaxpColors.primary,
         textTheme: VaxpTextTheme.darkText,
-
-
         // ⚡️ AppBar شفاف بزجاجية
         appBarTheme: AppBarTheme(
           backgroundColor: const Color.fromARGB(0, 0, 0, 0),

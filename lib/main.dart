@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:venom/core/venom_layout.dart';
+import 'package:window_manager/window_manager.dart';
 import 'core/theme/vaxp_theme.dart';
 
-void main() => runApp(const VaxpApp());
+Future<void> main() async { 
+      // Initialize Flutter bindings first to ensure the binary messenger is ready
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize window manager for desktop controls
+  await windowManager.ensureInitialized();
+
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(1000, 700),
+    center: true,
+    titleBarStyle: TitleBarStyle.hidden,
+  );
+
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
+  runApp(const VaxpApp());}
 
 class VaxpApp extends StatelessWidget {
   const VaxpApp({super.key});
@@ -22,8 +42,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('VAXP Glass UI')),
+    return VenomScaffold(
+      title: "venom",
       body: Center(
         child: VaxpGlass(
           child: Padding(
@@ -42,12 +62,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: "الرئيسية"),
-          NavigationDestination(icon: Icon(Icons.settings), label: "الإعدادات"),
-        ],
-      ),
+     
     );
   }
 }
