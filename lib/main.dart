@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:venom/core/colors/vaxp_colors.dart';
 import 'package:venom/core/venom_layout.dart';
 import 'package:window_manager/window_manager.dart';
 import 'core/theme/vaxp_theme.dart';
+import 'package:venom_config/venom_config.dart';
 
-Future<void> main() async { 
-      // Initialize Flutter bindings first to ensure the binary messenger is ready
+Future<void> main() async {
+  // Initialize Flutter bindings first to ensure the binary messenger is ready
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Venom Config System
+  await VenomConfig().init();
+
+  // Initialize VaxpColors listeners
+  VaxpColors.init();
 
   // Initialize window manager for desktop controls
   await windowManager.ensureInitialized();
@@ -21,7 +29,8 @@ Future<void> main() async {
     await windowManager.focus();
   });
 
-  runApp(const VaxpApp());}
+  runApp(const VaxpApp());
+}
 
 class VaxpApp extends StatelessWidget {
   const VaxpApp({super.key});
@@ -29,9 +38,7 @@ class VaxpApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'VAXP UI',
       debugShowCheckedModeBanner: false,
-      theme: VaxpTheme.dark,
       home: const HomePage(),
     );
   }
@@ -54,15 +61,20 @@ class HomePage extends StatelessWidget {
                 const Text("واجهة زجاجية VAXP", style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 16),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: VaxpColors.primary,
+                  ),
                   onPressed: () {},
-                  child: const Text("زر تجريبي"),
+                  child: const Text(
+                    "زر تجريبي",
+                    // No explicit style needed, it will inherit from VenomScaffold
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
-     
     );
   }
 }
